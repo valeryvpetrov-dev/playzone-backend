@@ -2,7 +2,6 @@ package ru.playzone.features.games
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import ru.playzone.database.games.Games
 
 fun Application.configureGameRouting() {
 
@@ -13,6 +12,10 @@ fun Application.configureGameRouting() {
 
         post("/games/search") {
             GamesController(call).performSearch()
+        }
+
+        get("/games/{id}") {
+            GamesController(call).getGame()
         }
     }
 }

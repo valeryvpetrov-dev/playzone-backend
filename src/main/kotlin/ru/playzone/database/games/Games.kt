@@ -2,10 +2,9 @@ package ru.playzone.database.games
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import ru.playzone.database.tokens.TokenDTO
-import ru.playzone.database.tokens.Tokens
 
 object Games : Table() {
     private val gameId = Games.varchar(name = "gameId", length = 100)
@@ -42,6 +41,23 @@ object Games : Table() {
             }
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    fun get(id: String): GameDTO {
+        return transaction {
+            Games.select { gameId eq id }
+                .limit(1)
+                .single()
+                .let {
+                    GameDTO(
+                        gameID = it[gameId],
+                        title = it[title],
+                        description = it[description],
+                        version = it[version],
+                        size = it[size]
+                    )
+                }
         }
     }
 }

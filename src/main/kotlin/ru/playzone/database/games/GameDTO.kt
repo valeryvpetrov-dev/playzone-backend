@@ -3,6 +3,7 @@ package ru.playzone.database.games
 import kotlinx.serialization.Serializable
 import ru.playzone.features.games.models.CreateGameRequest
 import ru.playzone.features.games.models.CreateGameResponse
+import ru.playzone.features.games.models.GetGameResponse
 import java.util.*
 
 @Serializable
@@ -26,6 +27,15 @@ fun CreateGameRequest.mapToGameDTO(): GameDTO =
 fun GameDTO.mapToCreateGameResponse(): CreateGameResponse =
     CreateGameResponse(
         gameID = gameID,
+        title = title,
+        description = description,
+        version = version,
+        size = size
+    )
+
+fun GameDTO.mapToGetGameResponse(): GetGameResponse =
+    GetGameResponse(
+        gameId = gameID,
         title = title,
         description = description,
         version = version,
